@@ -12,14 +12,14 @@ import {
   onAuthStateChanged
 } from 'firebase/auth';
 
-// Firebase client configuration loaded strictly from environment variables
+// Firebase client configuration loaded from environment variables with production defaults
 const firebaseConfig = {
-  apiKey: import.meta.env.VITE_FIREBASE_API_KEY || '',
-  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || '',
-  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID || '',
-  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || '',
-  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID || '',
-  appId: import.meta.env.VITE_FIREBASE_APP_ID || ''
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY || 'AIzaSyCvjzcBVsE_4bxWeTgifVtBJyKXcUFF7OM',
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || 'campus-booking-f8217.firebaseapp.com',
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID || 'campus-booking-f8217',
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || 'campus-booking-f8217.firebasestorage.app',
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID || '958598133981',
+  appId: import.meta.env.VITE_FIREBASE_APP_ID || '1:958598133981:web:94b6d544ee4e3a427d0334'
 };
 
 // Check whether valid, non-placeholder credentials have been configured
