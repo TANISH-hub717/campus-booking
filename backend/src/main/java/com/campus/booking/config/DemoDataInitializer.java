@@ -61,11 +61,16 @@ public class DemoDataInitializer {
                     return userRepository.save(newAdmin);
                 });
 
-        // 2. Provision Demo Departments
-        DepartmentCell cseDept = getOrCreateDepartment("Computer Science & Engineering", DepartmentType.DEPARTMENT, "Department of Computer Science & Engineering", admin);
-        getOrCreateDepartment("Electronics & Communication", DepartmentType.DEPARTMENT, "Department of Electronics & Communication", admin);
-        getOrCreateDepartment("Mechanical Engineering", DepartmentType.DEPARTMENT, "Department of Mechanical Engineering", admin);
-        getOrCreateDepartment("Student Affairs & Cultural Cell", DepartmentType.CELL, "Institutional Student Affairs & Cultural Events Hub", admin);
+        // 2. Provision Demo Departments (only if no departments exist yet)
+        DepartmentCell cseDept = null;
+        if (departmentCellRepository.count() == 0) {
+            cseDept = getOrCreateDepartment("Computer Science & Engineering", DepartmentType.DEPARTMENT, "Department of Computer Science & Engineering", admin);
+            getOrCreateDepartment("Electronics & Communication", DepartmentType.DEPARTMENT, "Department of Electronics & Communication", admin);
+            getOrCreateDepartment("Mechanical Engineering", DepartmentType.DEPARTMENT, "Department of Mechanical Engineering", admin);
+            getOrCreateDepartment("Student Affairs & Cultural Cell", DepartmentType.CELL, "Institutional Student Affairs & Cultural Events Hub", admin);
+        } else {
+            cseDept = departmentCellRepository.findAll().stream().findFirst().orElse(null);
+        }
 
         // 3. Provision Demo Faculty
         User faculty = userRepository.findByEmailIgnoreCase("faculty@campus.edu")
@@ -84,57 +89,62 @@ public class DemoDataInitializer {
                     return userRepository.save(newFaculty);
                 });
 
-        // 4. Provision Presentation Venues
-        getOrCreateVenue(
-                "Sir C.V. Raman Main Auditorium",
-                VenueType.AUDITORIUM,
-                "Academic Block A",
-                "Ground Floor",
-                "A-001",
-                500,
-                "Grand institutional auditorium equipped with advanced acoustic walls, stage lighting, dual projectors, and sound system.",
-                "Acoustic Stage, Wireless Microphones, Dual 4K Projectors, Surround Sound, Green Room",
-                "Requires approval from Estate Office at least 48 hours before major college events."
-        );
+        // 4. Provision Presentation Venues (only if no venues exist yet, respecting user deletions)
+        Venue seminarHall = null;
+        if (venueRepository.count() == 0) {
+            getOrCreateVenue(
+                    "Sir C.V. Raman Main Auditorium",
+                    VenueType.AUDITORIUM,
+                    "Academic Block A",
+                    "Ground Floor",
+                    "A-001",
+                    500,
+                    "Grand institutional auditorium equipped with advanced acoustic walls, stage lighting, dual projectors, and sound system.",
+                    "Acoustic Stage, Wireless Microphones, Dual 4K Projectors, Surround Sound, Green Room",
+                    "Requires approval from Estate Office at least 48 hours before major college events."
+            );
 
-        Venue seminarHall = getOrCreateVenue(
-                "Turing Smart Seminar Hall",
-                VenueType.SEMINAR_HALL,
-                "Technology Tower",
-                "2nd Floor",
-                "TT-204",
-                120,
-                "Air-conditioned tier-seating seminar hall tailored for departmental guest lectures, research symposiums, and defense.",
-                "Smart Podium, Laser Projector, Ceiling Array Mic, High-speed Wi-Fi, Video Conferencing",
-                "Please maintain cleanliness and switch off HVAC upon event conclusion."
-        );
+            seminarHall = getOrCreateVenue(
+                    "Turing Smart Seminar Hall",
+                    VenueType.SEMINAR_HALL,
+                    "Technology Tower",
+                    "2nd Floor",
+                    "TT-204",
+                    120,
+                    "Air-conditioned tier-seating seminar hall tailored for departmental guest lectures, research symposiums, and defense.",
+                    "Smart Podium, Laser Projector, Ceiling Array Mic, High-speed Wi-Fi, Video Conferencing",
+                    "Please maintain cleanliness and switch off HVAC upon event conclusion."
+            );
 
-        getOrCreateVenue(
-                "Aryabhata Conference Hall",
-                VenueType.CONFERENCE_HALL,
-                "Administrative Block",
-                "1st Floor",
-                "ADM-102",
-                40,
-                "Executive conference hall with video conference hub for institutional meetings, faculty councils, and interviews.",
-                "85-inch Interactive Display, HD PTZ Camera, Conference Polycom Speaker, Whiteboard",
-                "Reserved primarily for faculty meetings, academic councils, and departmental committees."
-        );
+            getOrCreateVenue(
+                    "Aryabhata Conference Hall",
+                    VenueType.CONFERENCE_HALL,
+                    "Administrative Block",
+                    "1st Floor",
+                    "ADM-102",
+                    40,
+                    "Executive conference hall with video conference hub for institutional meetings, faculty councils, and interviews.",
+                    "85-inch Interactive Display, HD PTZ Camera, Conference Polycom Speaker, Whiteboard",
+                    "Reserved primarily for faculty meetings, academic councils, and departmental committees."
+            );
 
-        getOrCreateVenue(
-                "Advanced AI & Cloud Computing Lab",
-                VenueType.LABORATORY,
-                "Computer Science Annex",
-                "3rd Floor",
-                "CS-310",
-                60,
-                "Equipped with 60 high-performance workstations for technical workshops, hackathons, and laboratory sessions.",
-                "60 High-Performance Workstations, Gigabit LAN, UPS Power Backup, Overhead Projection",
-                "Food and beverages are strictly prohibited inside computing laboratories."
-        );
+            getOrCreateVenue(
+                    "Advanced AI & Cloud Computing Lab",
+                    VenueType.LABORATORY,
+                    "Computer Science Annex",
+                    "3rd Floor",
+                    "CS-310",
+                    60,
+                    "Equipped with 60 high-performance workstations for technical workshops, hackathons, and laboratory sessions.",
+                    "60 High-Performance Workstations, Gigabit LAN, UPS Power Backup, Overhead Projection",
+                    "Food and beverages are strictly prohibited inside computing laboratories."
+            );
+        } else {
+            seminarHall = venueRepository.findAll().stream().findFirst().orElse(null);
+        }
 
         // 5. Provision Sample Booking for presentation review
-        if (bookingRepository.count() == 0) {
+        if (bookingRepository.count() == 0 && seminarHall != null && cseDept != null) {
             Booking demoBooking = new Booking(
                     "CRB-2026-DEMO01",
                     seminarHall,

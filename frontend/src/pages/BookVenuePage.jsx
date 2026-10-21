@@ -3,14 +3,14 @@ import { useLocation, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { api } from '../services/api';
 import InlineDepartmentModal from '../components/InlineDepartmentModal';
-import { 
-  Building2, 
-  Clock, 
-  Users, 
-  MapPin, 
-  CheckCircle2, 
-  AlertCircle, 
-  Plus, 
+import {
+  Building2,
+  Clock,
+  Users,
+  MapPin,
+  CheckCircle2,
+  AlertCircle,
+  Plus,
   Sparkles
 } from 'lucide-react';
 
@@ -289,7 +289,7 @@ export default function BookVenuePage() {
             <Link to="/bookings" className="btn btn-primary">
               View in My Bookings
             </Link>
-            <button 
+            <button
               className="btn btn-secondary"
               onClick={() => {
                 setBookingSuccess(null);
@@ -332,7 +332,7 @@ export default function BookVenuePage() {
             <div className="form-grid-2">
               <div className="form-group">
                 <label className="form-label">Select Facility / Venue *</label>
-                <select 
+                <select
                   className="form-control"
                   value={venueId}
                   onChange={handleVenueChange}
@@ -349,7 +349,7 @@ export default function BookVenuePage() {
               <div className="form-group">
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <label className="form-label">Department / Society / Cell *</label>
-                  <button 
+                  <button
                     type="button"
                     onClick={() => setShowDeptModal(true)}
                     style={{ background: 'none', border: 'none', color: 'var(--color-primary)', fontSize: '0.75rem', fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.2rem' }}
@@ -358,7 +358,7 @@ export default function BookVenuePage() {
                     <span>Add New</span>
                   </button>
                 </div>
-                <select 
+                <select
                   className="form-control"
                   value={departmentCellId}
                   onChange={(e) => setDepartmentCellId(e.target.value)}
@@ -379,8 +379,8 @@ export default function BookVenuePage() {
           <div className="form-card">
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
               <h3 className="form-card-title" style={{ margin: 0 }}>2. Schedule & Slot Verification</h3>
-              <button 
-                type="button" 
+              <button
+                type="button"
                 className="btn btn-secondary btn-sm"
                 onClick={handleCheckAvailability}
                 disabled={checkingAvailability}
@@ -393,7 +393,7 @@ export default function BookVenuePage() {
             <div className="form-grid-3">
               <div className="form-group">
                 <label className="form-label">Event Date *</label>
-                <input 
+                <input
                   type="date"
                   className="form-control"
                   value={eventDate}
@@ -405,7 +405,7 @@ export default function BookVenuePage() {
 
               <div className="form-group">
                 <label className="form-label">Start Time *</label>
-                <input 
+                <input
                   type="time"
                   className="form-control"
                   value={startTime}
@@ -416,7 +416,7 @@ export default function BookVenuePage() {
 
               <div className="form-group">
                 <label className="form-label">End Time *</label>
-                <input 
+                <input
                   type="time"
                   className="form-control"
                   value={endTime}
@@ -454,7 +454,7 @@ export default function BookVenuePage() {
 
             <div className="form-group" style={{ marginBottom: '1rem' }}>
               <label className="form-label">Event Title / Purpose *</label>
-              <input 
+              <input
                 type="text"
                 className="form-control"
                 placeholder="e.g. National Conference on Quantum Computing & Cyber Systems"
@@ -466,7 +466,7 @@ export default function BookVenuePage() {
 
             <div className="form-group" style={{ marginBottom: '1rem' }}>
               <label className="form-label">Brief Description & Objective</label>
-              <textarea 
+              <textarea
                 className="form-control"
                 rows="3"
                 placeholder="Target audience, guest speaker details, schedule overview..."
@@ -478,7 +478,7 @@ export default function BookVenuePage() {
             <div className="form-grid-2">
               <div className="form-group">
                 <label className="form-label">Expected Attendees *</label>
-                <input 
+                <input
                   type="number"
                   className="form-control"
                   min="1"
@@ -496,7 +496,7 @@ export default function BookVenuePage() {
 
               <div className="form-group">
                 <label className="form-label">Audio / Visual / Technical Equipment</label>
-                <input 
+                <input
                   type="text"
                   className="form-control"
                   placeholder="e.g. 2 collar mics, projector, podium, audio recording"
@@ -511,8 +511,8 @@ export default function BookVenuePage() {
             <Link to="/dashboard" className="btn btn-secondary">
               Cancel
             </Link>
-            <button 
-              type="submit" 
+            <button
+              type="submit"
               className="btn btn-primary"
               disabled={submitting || (availabilityResult && !availabilityResult.available)}
             >
@@ -531,9 +531,9 @@ export default function BookVenuePage() {
               </h3>
 
               <div className="preview-image-box">
-                <img 
-                  src={selectedVenue.imageUrl || 'https://images.unsplash.com/photo-1517457373958-b7bdd4587205?auto=format&fit=crop&w=600&q=80'} 
-                  alt={selectedVenue.name} 
+                <img
+                  src={selectedVenue.imageUrl || 'https://images.unsplash.com/photo-1517457373958-b7bdd4587205?auto=format&fit=crop&w=600&q=80'}
+                  alt={selectedVenue.name}
                   className="preview-img"
                   onError={(e) => { e.target.src = 'https://images.unsplash.com/photo-1517457373958-b7bdd4587205?auto=format&fit=crop&w=600&q=80'; }}
                 />
@@ -571,7 +571,7 @@ export default function BookVenuePage() {
         )}
       </form>
 
-      <InlineDepartmentModal 
+      <InlineDepartmentModal
         isOpen={showDeptModal}
         onClose={() => setShowDeptModal(false)}
         onCreated={handleDepartmentCreated}
